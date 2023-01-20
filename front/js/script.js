@@ -1,9 +1,10 @@
+// Faire un requette des produits a l' api etafficher les images de la page
 fetch("http://localhost:3000/api/products")
     .then((response) => response.json())
     .then((data) => {
       for(let article of data){
         document.querySelector('#items').innerHTML += `     
-        <a href="./product.html?id=42${article._id}">
+        <a href="./product.html?id=${article._id}">
         <article>
           <img src="${article.imageUrl}" alt="Lorem ipsum dolor sit amet, Kanap name1${article.altTxt}">
           <h3 class="productName">Kanap name1${article.name}</h3>
