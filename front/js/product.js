@@ -13,27 +13,34 @@ fetch(`http://localhost:3000/api/products/${id}`)
   } )
 
 
-  function afficherProduit  (kanap)  {
-  madeImage(kanap.imageUrl, kanap.altTxt)
-  madeTilte(kanap.name)
-  madeDescription(kanap.description)
-  madeColors(kanap.colors)
-  madePrice(kanap.price)
+  function afficherProduit (kanap){
+  afficherImage(kanap.imageUrl, kanap.altTxt)
+  afficherTitre(kanap.name)
+  afficherDescription(kanap.description)
+ /* afficherCouleurrs(kanap.colors)
+  afficherPrix(kanap.price)*/
+  console.log('la fonction afficher produits s execute');
   
 }
+function afficherTitre(name){
+  document.querySelector('#title').innerHTML += `     
+        <h1>${name}</h1>
+        
+      `
+}
+function afficherImage(imageUrl, altTxt){
+  document.querySelector('.item__img').innerHTML += `
+  <img src="${imageUrl}" alt="${altTxt}">
+  `
+}
+function afficherDescription(description){
+  document.querySelector('#description').innerHTML +=`
+<p>${description}</p>`
+}
+
   
  
-function madeImage (kanap.altTxt,kanap.imageUrl) {
-  kanap.altTxt = document.createElement("img")
-  kanap.imageUrl
-  const parent = document.querySelector("item__img")
-  if (parent!= null) parent.appendChild(image)
 
-}
-function madeTilte(tilte) {
-   const h1 = document.querySelector("#tilte")
-
-} 
 
     
    
