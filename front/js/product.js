@@ -94,7 +94,7 @@ function saveTocart(colors, quantity){
   localStorage.setItem(id, JSON.stringify(addToCart))
 
 }
-
+//Recuperer le produit dans le localStorage
 function getToCart(){
   const cart = localStorage.getItem('cart');
   if(cart == null) {
