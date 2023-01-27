@@ -12,51 +12,35 @@ fetch(`http://localhost:3000/api/products/${id}`)
        
   } )
 
-  
+// Inserer l'image d'un produit et ses details  
 function afficherProduit (kanap){
-  afficherImage(kanap.imageUrl, kanap.altTxt)
-  afficherTitre(kanap.name)
-  afficherDescription(kanap.description)
-  afficherCouleurs(kanap.colors)
-  afficherPrix(kanap.price)
+  //afficherCouleurs(kanap.colors)
+  const title = document.createElement('h1');
+  title.textContent= kanap.name;
+  document.querySelector('#title').appendChild(title);
+
   
-}
+  const Description = document.createElement('p');
+  Description.textContent = kanap.description;
+  document.querySelector('#description').appendChild(Description);
 
-// Inserer l'image d'un produit et ses details 
-function afficherTitre(name){
-  document.querySelector('#title').innerHTML = `     
-        <h1>${name}</h1>
-        
-      `
-}
-function afficherImage(imageUrl, altTxt){
-  document.querySelector('.item__img').innerHTML += `
-  <img src="${imageUrl}" alt="${altTxt}">
-  `
-}
+  const image = document.createElement('img');
+  image.src = kanap.imageUrl;
+  image.alt = kanap.altTxt;
+  document.querySelector('.item__img').appendChild(image);
 
-function afficherDescription(description){
-  document.querySelector('#description').innerHTML +=`
-<p>${description}</p>`
-}
+  const price = document.createElement('span');
+  price.textContent = kanap.price;
+  document.querySelector('#price').appendChild(price);
+  
+  for (let option of kanap.colors) {
+    option = `<option value="vert">${option}</option>`;
 
-function afficherCouleurs(colors){
-  const select = document.querySelector('#colors')
-  if (select != null) {
-    colors.forEach( (color) => {
-      const option = document.createElement('option')
-      option.value = color
-      option.textContent = color
-      select.appendChild(option)
-    })
+    document.querySelector('#colors').insertAdjacentHTML('beforeend', option);
   }
   
-}
-
-function afficherPrix(Price){
-  document.querySelector('#price').innerHTML +=`
-   <span>${Price}</span> `
-}
+}    
+    
 
 // Ajoutrer des produits dans le panier
 const button = document.querySelector('#addToCart')
@@ -79,7 +63,7 @@ if (button != null){button.addEventListener('click', () => {
 
   
   window.location.href = "./cart.html"
-  saveTocart(color, quantity)
+  saveTocart(color, quantity, title, )
 });
 }
 
@@ -103,6 +87,7 @@ function getToCart(){
     return JSON.parse('cart');
   }
 }
+
 
 
 
