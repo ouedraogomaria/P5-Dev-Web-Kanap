@@ -3,7 +3,7 @@ fetch("http://localhost:3000/api/products")
     .then((response) => response.json())
     .then((data) => {
       for(let article of data){
-        product= `     
+        const product= `     
         <a href="./product.html?id=${article._id}">
         <article>
           <img src="${article.imageUrl}" alt="Lorem ipsum dolor sit amet, Kanap name1${article.altTxt}">
@@ -12,8 +12,7 @@ fetch("http://localhost:3000/api/products")
         </article>
       </a> 
       `;
-      const section = document.querySelector('#items');
-      section.insertAdjacentHTML('beforeend', product);
+     document.querySelector('#items').insertAdjacentHTML('beforeend', product);
     } 
  
     })

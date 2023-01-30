@@ -2,6 +2,7 @@
 const queryString_url_id = window.location.search;
 const urlParams = new URLSearchParams(queryString_url_id);
 const id = urlParams.get("id");
+console.log(id)
 
 // Recuper les donnees des produits depuis l API
 fetch(`http://localhost:3000/api/products/${id}`)
@@ -14,7 +15,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
 
 // Inserer l'image d'un produit et ses details  
 function afficherProduit (kanap){
-  //afficherCouleurs(kanap.colors)
   const title = document.createElement('h1');
   title.textContent= kanap.name;
   document.querySelector('#title').appendChild(title);
@@ -33,10 +33,10 @@ function afficherProduit (kanap){
   price.textContent = kanap.price;
   document.querySelector('#price').appendChild(price);
   
-  for (let option of kanap.colors) {
-    option = `<option value="vert">${option}</option>`;
+  for (let value of kanap.colors) {
+    value = `<option value="${value}">${value}</option>`;
 
-    document.querySelector('#colors').insertAdjacentHTML('beforeend', option);
+    document.querySelector('#colors').insertAdjacentHTML('beforeend', value);
   }
   
 }    
@@ -49,6 +49,8 @@ if (button != null){button.addEventListener('click', () => {
   // Récupérer  la couleur et de la quantité sélectionnées 
   const color = document.querySelector('#colors').value;
   const quantity = document.querySelector('#quantity').value;
+  const tilte = document.querySelector('#title').textContent;
+  const image = document.querySelector('.item__img').innerHTML;
 
 
   if (color === '') {
@@ -61,33 +63,18 @@ if (button != null){button.addEventListener('click', () => {
     return;
   }
 
-  
-  window.location.href = "./cart.html"
-  saveTocart(color, quantity, title, )
+  saveTocart(color, quantity, tilte, image)
 });
 }
 
 //Enregistrer le produit dans le locaStorage
-function saveTocart(colors, quantity){
-  const addToCart = {
-    id: id,
-    color:  colors,
-    quantity: quantity,
-  };
+function saveTocart(color, quantity, tilte, image){
+  const addToCart = {id, color, quantity,  tilte, image};
 
   localStorage.setItem(id, JSON.stringify(addToCart))
 
 }
 //Recuperer le produit dans le localStorage
-function getToCart(){
-  const cart = localStorage.getItem('cart');
-  if(cart == null) {
-    return[];
-  }else {
-    return JSON.parse('cart');
-  }
-}
-
 
 
 
