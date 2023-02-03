@@ -25,7 +25,7 @@ function arrayProduct (items) {
    const p = document.createElement('p');
    p.textContent = items.price;
 
-   document.querySelector('.cart__item__content__description').appendChild(h2, colors, p);
+   document.querySelector('#cart__items').appendChild(h2, colors, p);
 
 
 }

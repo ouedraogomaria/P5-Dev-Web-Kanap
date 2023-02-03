@@ -17,7 +17,7 @@ fetch("http://localhost:3000/api/products")
  
     })
     .catch((error) => {
-      alert('un probleme signalé')
+      alert('un probleme signalé', error)
     });
 
 
