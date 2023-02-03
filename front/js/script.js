@@ -1,4 +1,4 @@
-// Faire un requette des produits a l' api etafficher les images de la page
+// Faire un requette des produits a l' api et afficher les images de la page
 fetch("http://localhost:3000/api/products")
     .then((response) => response.json())
     .then((data) => {
@@ -16,5 +16,8 @@ fetch("http://localhost:3000/api/products")
     } 
  
     })
+    .catch((error) => {
+      alert('un probleme signalé')
+    });
 
 

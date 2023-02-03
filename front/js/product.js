@@ -2,7 +2,6 @@
 const queryString_url_id = window.location.search;
 const urlParams = new URLSearchParams(queryString_url_id);
 const id = urlParams.get("id");
-console.log(id)
 
 // Recuper les donnees des produits depuis l API
 fetch(`http://localhost:3000/api/products/${id}`)
@@ -11,7 +10,10 @@ fetch(`http://localhost:3000/api/products/${id}`)
        afficherProduit (data)
 
        
-  } )
+  })
+  .catch((error) => {
+    alert('alert probleme', error)
+  });
 
 // Inserer l'image d'un produit et ses details  
 function afficherProduit (kanap){
@@ -42,18 +44,18 @@ function afficherProduit (kanap){
 }    
     
 
-// Ajoutrer des produits dans le panier
-const button = document.querySelector('#addToCart')
-if (button != null){button.addEventListener('click', () => {
-
-  // Récupérer  la couleur et de la quantité sélectionnées 
+//Gestion  des produits dans le panier
+const button = document.querySelector('#addToCart');
+button.addEventListener('click', (e) => {
+e.preventDefault();
+ // Récupérer  les valeurs pour mettre dans le localStorage
   const color = document.querySelector('#colors').value;
   const quantity = document.querySelector('#quantity').value;
   const tilte = document.querySelector('#title').textContent;
   const image = document.querySelector('.item__img').innerHTML;
 
 
-  if (color === '') {
+  if (color=== '') {
     alert('Choisir une couleur');
     return;
   }
@@ -62,22 +64,28 @@ if (button != null){button.addEventListener('click', () => {
     alert('choisir une quantité valide');
     return;
   }
-
-  saveTocart(color, quantity, tilte, image)
+  
+  //Ajout de la function AddTocart
+  AddTocart(color, quantity, tilte, image)
 });
-}
 
 //Enregistrer le produit dans le locaStorage
-function saveTocart(color, quantity, tilte, image){
+function AddTocart(color, quantity, tilte, image){
   const addToCart = {id, color, quantity,  tilte, image};
 
-  localStorage.setItem(id, JSON.stringify(addToCart))
+  localStorage.setItem("id", JSON.stringify(addToCart));
 
+  // Récupérer le panier dans le localstorage
+  const cart = localStorage.getItem('cart') != undefined ? JSON.parse(localStorage.getItem('cart')): [];
+
+  //ajout un produit
+  if (cart.length >= 0) {
+    cart.push(addToCart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('ajouté au panier')
+  }
+	
 }
-//Recuperer le produit dans le localStorage
-
-
-
 
 
 
@@ -94,4 +102,3 @@ function saveTocart(color, quantity, tilte, image){
 
 
 
-    
