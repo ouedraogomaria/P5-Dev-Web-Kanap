@@ -3,6 +3,7 @@ const queryString_url_id = window.location.search;
 const urlParams = new URLSearchParams(queryString_url_id);
 const id = urlParams.get("id");
 
+
 // Recuper les donnees des produits depuis l API
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((response) => response.json())
@@ -52,8 +53,8 @@ e.preventDefault();
   const color = document.querySelector('#colors').value;
   const quantity = document.querySelector('#quantity').value;
   const tilte = document.querySelector('#title').textContent;
-  const image = document.querySelector('.item__img').innerHTML;
-
+  const src = document.querySelector('.item__img img').getAttribute('src');
+  const alt = document.querySelector('.item__img img').getAttribute('alt');
 
   if (color=== '') {
     alert('Choisir une couleur');
@@ -66,21 +67,21 @@ e.preventDefault();
   }
   
   //Ajout de la function AddTocart
-  AddTocart(color, quantity, tilte, image)
+
+  AddTocart(color, quantity, tilte, src, alt)
 });
 
 //Enregistrer le produit dans le locaStorage
-function AddTocart(color, quantity, tilte, image){
-  const addToCart = {id, color, quantity,  tilte, image};
-
-  localStorage.setItem("id", JSON.stringify(addToCart));
+function AddTocart(color, quantity, tilte, src, alt){
+  const objetKanap = {id, color, quantity,  tilte, src, alt};
+  localStorage.setItem('objetkanap', JSON.stringify(objetKanap));
 
   // Récupérer le panier dans le localstorage
   const cart = localStorage.getItem('cart') != undefined ? JSON.parse(localStorage.getItem('cart')): [];
 
   //ajout un produit
   if (cart.length >= 0) {
-    cart.push(addToCart);
+    cart.push(objetKanap);
     localStorage.setItem('cart', JSON.stringify(cart));
     alert('ajouté au panier')
   }
