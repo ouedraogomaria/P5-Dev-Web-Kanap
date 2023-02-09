@@ -83,10 +83,21 @@ function AddTocart(color, quantity, tilte, src, alt){
   if (cart.length >= 0) {
     cart.push(objetKanap);
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert('ajouté au panier')
+    alert('ajouté au panier');
   }
-	
+  //si le produit existe dans le panier mettre à jour la quantité
+  let foundProduct = cart.find(p =>p.id === cart.id);
+  if(foundProduct != undefined){
+    foundProduct.quantity ++;
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+    
 }
+
+
+
+
 
 
 
@@ -97,7 +108,6 @@ function AddTocart(color, quantity, tilte, src, alt){
 
 
   
-
 
   
 
