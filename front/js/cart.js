@@ -3,10 +3,9 @@ const objetinlocalstorage = JSON.parse(localStorage.getItem('cart'));
 //Création des function d'affichage
 displayItems();
 removeObjet();
-async function getPrice(id){
+function getPrice(id){
  
-  let result = '';
-  let toto = await fetch('http://localhost:3000/api/products/'+id)
+  fetch('http://localhost:3000/api/products/'+id)
    
   .then((response) => response.json())
   .then((data) => {
@@ -15,10 +14,10 @@ async function getPrice(id){
   
   });
   
-  return toto;
+
 }
 //Appelle la function pour afficher les produits du
-async function displayItems(){
+function displayItems(){
 
   for (let data of objetinlocalstorage) { 
     
@@ -30,7 +29,7 @@ async function displayItems(){
           <div class="cart__item__content__description">
             <h2>${data.tilte}</h2>
             <p>${data.color}</p>
-            <p>${await getPrice(data.id).then(x => x)}€</p>
+            <p>${getPrice(data.price)}€</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
@@ -52,11 +51,21 @@ async function displayItems(){
   
 //Supprimer un produit dans la page panier
 function removeObjet(){
+
+  //Gestion de la suppression d'un produit
   const btndeleded = document.querySelector('.deleteItem');
   btndeleded.addEventListener('click', (e) => {
     e.preventDefault(); 
-    console.log(e);
-    //const deledeId = 
+
+    //Appelle à l'id et la couleur à supprimer
+    let deledeId = objetinlocalstorage.id;
+  
+    
+    objetinlocalstorage = objetinlocalstorage.filter(
+      (product) => product.id !== deledeId );
+
+    localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
+    
   }) ; 
 }
 

@@ -86,7 +86,7 @@ function AddTocart(color, quantity, tilte, src, alt){
     alert('ajouté au panier');
   }
   //si le produit existe dans le panier mettre à jour la quantité
-  let foundProduct = cart.find(p =>p.id === cart.id);
+  let foundProduct = cart.find(p =>p.id === objetKanap.id);
   if(foundProduct != undefined){
     foundProduct.quantity ++;
   }
