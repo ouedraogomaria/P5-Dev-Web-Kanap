@@ -68,7 +68,7 @@ e.preventDefault();
   
   //Ajout de la function AddTocart
 
-  AddTocart(color, quantity, tilte, src, alt)
+  AddTocart(color, quantity, tilte, src, alt);
 });
 
 //Enregistrer le produit dans le locaStorage
@@ -80,15 +80,19 @@ function AddTocart(color, quantity, tilte, src, alt){
   const cart = localStorage.getItem('cart') != undefined ? JSON.parse(localStorage.getItem('cart')): [];
 
   //ajout un produit
-  if (cart.length >= 0) {
+
+  
+  //si le produit existe dans le panier mettre à jour la quantité
+  let foundProduct = cart.find(p =>p.id === objetKanap.id && p.color == objetKanap.color );
+  if(foundProduct != undefined){
+    foundProduct.quantity = parseInt(foundProduct.quantity) +parseInt(quantity);
+    alert('mise à jour de la quantité');
+    
+  }else{
+  
     cart.push(objetKanap);
     localStorage.setItem('cart', JSON.stringify(cart));
     alert('ajouté au panier');
-  }
-  //si le produit existe dans le panier mettre à jour la quantité
-  let foundProduct = cart.find(p =>p.id === objetKanap.id);
-  if(foundProduct != undefined){
-    foundProduct.quantity ++;
   }
   localStorage.setItem('cart', JSON.stringify(cart));
   

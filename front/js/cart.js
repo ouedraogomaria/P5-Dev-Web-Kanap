@@ -1,26 +1,26 @@
 //Récupérer le produit dans le localStorage
 const objetinlocalstorage = JSON.parse(localStorage.getItem('cart'));
-//Création des function d'affichage
+//Apelle  des function d'affichage
 displayItems();
-removeObjet();
-function getPrice(id){
+displayTotalArticle()
+
+//totalArticles();
+
+async function getPrice(id){
  
-  fetch('http://localhost:3000/api/products/'+id)
-   
-  .then((response) => response.json())
-  .then((data) => {
-    
-    return data.price;
+  let result = await fetch('http://localhost:3000/api/products/'+id);
+  let res = await result.json();
+  let data = await res.price;
   
-  });
-  
+  return data;
+
 
 }
-//Appelle la function pour afficher les produits du
-function displayItems(){
-
-  for (let data of objetinlocalstorage) { 
-    
+//Utiliser la function pour afficher les produits du
+async function displayItems(){
+  console.log('texte');
+  for (const data of objetinlocalstorage) { 
+    let price = await getPrice(data.id);
     const objet = `<article class="cart__item" data-id="${data.id}" data-color="${data.color}">
         <div class="cart__item__img">
         <img src="${data.src}" alt="${data.alt}">
@@ -29,7 +29,7 @@ function displayItems(){
           <div class="cart__item__content__description">
             <h2>${data.tilte}</h2>
             <p>${data.color}</p>
-            <p>${getPrice(data.price)}€</p>
+            <p>${price}€</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
@@ -44,29 +44,36 @@ function displayItems(){
       </article>`;
 
       document.querySelector('#cart__items').insertAdjacentHTML('beforeend', objet);
-}
-
- 
+      console.log('texte');
+  
   }
-  
-//Supprimer un produit dans la page panier
-function removeObjet(){
-
-  //Gestion de la suppression d'un produit
-  const btndeleded = document.querySelector('.deleteItem');
-  btndeleded.addEventListener('click', (e) => {
-    e.preventDefault(); 
-
-    //Appelle à l'id et la couleur à supprimer
-    let deledeId = objetinlocalstorage.id;
-  
-    
-    objetinlocalstorage = objetinlocalstorage.filter(
-      (product) => product.id !== deledeId );
-
-    localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
-    
-  }) ; 
+//Gestion de l'evenement supprimer  un produit
+btnDeleteds = document.getElementsByClassName('deleteItem');
+  for(let i= 0;i< btnDeleteds.length; i++){
+    btnDeleteds[i].addEventListener('click', (e) => {
+      e.preventDefault(); 
+      //appelle à la fonction de suppression
+      deleteItem(i);
+    }) ;
+  }
+ 
 }
+//Supprimer un produit dans la page panier
+function deleteItem (itemIndex){
+  objetinlocalstorage.splice(itemIndex,1)
+   localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
+ 
+   window.location.reload()
+ }
+
+//Calcul le total des articles du panier
+ function displayTotalArticle(){
+  let totalArticles = 0
+  for(let item of objetinlocalstorage){ 
+    totalArticles = totalArticles +parseInt(item.quantity);
+  }
+  document.querySelector('#totalQuantity').insertAdjacentHTML('beforeend', totalArticles)
+}
+
 
 
