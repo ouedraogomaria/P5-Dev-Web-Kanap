@@ -18,7 +18,6 @@ async function getPrice(id){
 }
 //Utiliser la function pour afficher les produits du
 async function displayItems(){
-  console.log('texte');
   for (const data of objetinlocalstorage) { 
     let price = await getPrice(data.id);
     const objet = `<article class="cart__item" data-id="${data.id}" data-color="${data.color}">
@@ -44,9 +43,8 @@ async function displayItems(){
       </article>`;
 
       document.querySelector('#cart__items').insertAdjacentHTML('beforeend', objet);
-      console.log('texte');
-  
   }
+
 //Gestion de l'evenement supprimer  un produit
 btnDeleteds = document.getElementsByClassName('deleteItem');
   for(let i= 0;i< btnDeleteds.length; i++){
@@ -58,11 +56,12 @@ btnDeleteds = document.getElementsByClassName('deleteItem');
   }
  
 }
+
 //Supprimer un produit dans la page panier
 function deleteItem (itemIndex){
   objetinlocalstorage.splice(itemIndex,1)
    localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
- 
+ //Mise à jour de la page
    window.location.reload()
  }
 
