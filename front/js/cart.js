@@ -1,10 +1,10 @@
 //Récupérer le produit dans le localStorage
 const objetinlocalstorage = JSON.parse(localStorage.getItem('cart'));
-//Apelle  des function d'affichage
+//Appelle  les fonction d'affichage
 displayItems();
 displayTotalArticle();
 displayTotalPrice();
-//Declarer une variable qui va contenir 
+//creation d'un tableau qui va contenir les nouvelles valeurs des produits
 let btnDeleteds = [];
 let quantityBtns = []; 
 
@@ -20,7 +20,7 @@ async function getPrice(id){
 }
 //Utiliser la function pour afficher les produits du
 async function displayItems(){
-  for (const data of objetinlocalstorage) { 
+  for (let data of objetinlocalstorage) { 
     let price = await getPrice(data.id);
     const objet = `<article class="cart__item" data-id="${data.id}" data-color="${data.color}">
         <div class="cart__item__img">
@@ -43,12 +43,11 @@ async function displayItems(){
           </div>
         </div>
       </article>`;
-
       document.querySelector('#cart__items').insertAdjacentHTML('beforeend', objet);
   }
 
-//Gestion de l'evenement supprimer  un produit
-btnDeleteds = document.getElementsByClassName('deleteItem');
+ //Gestion de l'evenement supprimer  un produit
+  btnDeleteds = document.getElementsByClassName('deleteItem');
   for(let i= 0;i< btnDeleteds.length; i++){
     btnDeleteds[i].addEventListener('click', (e) => {
       e.preventDefault(); 
@@ -57,16 +56,15 @@ btnDeleteds = document.getElementsByClassName('deleteItem');
     }) ;
   }
  
-//Gestion de l'evenement de mise à jour de la quantité 
-quantityBtns = document.getElementsByClassName('itemQuantity');
-for(let i= 0; i< quantityBtns.length ;i++ ){ 
- quantityBtns[i].addEventListener('input', () => { 
+ //Gestion de l'evenement de mise à jour de la quantité 
+  quantityBtns = document.getElementsByClassName('itemQuantity');
+  for(let i= 0; i< quantityBtns.length ;i++ ){ 
+   quantityBtns[i].addEventListener('change', () => { 
   //appelle à la fonction pour mettre à jour la quantité
-  addQuantity(i);
-}) ;
-}  
+    addQuantity(i);
+  }) ;
+  }  
 
- 
 }
 
 //Supprimer un produit dans la page panier
@@ -104,4 +102,32 @@ async function displayTotalPrice(){
   }
   document.querySelector('#totalPrice').insertAdjacentHTML('beforeend', totalPrice);
 }
+
+//Gestion de l'evenement du formulaire de saisie
+const btnOrder = document.getElementById('order');
+btnOrder.addEventListener('submit', (e) => {
+  e.preventDefault();
+  // Apelle les fonctions de vérification du formulaire
+  firstNameValid();
+  lastNameValid();
+  addressValid();
+  cityValid();
+  emailValid();
+});
+
+// Vérification de la validité du prenom dans le champ de saisie
+function firstNameValid(){ 
+  let  FirstNameError = document.getElementById('firstNameErrorMsg');
+  let firstName = firstName.value;
+  let myRegex = (/^[a-zA-Z-\s]+$/);
+
+  if (firstName === ''){
+  let  FirstNameError = document.getElementById('firstNameErrorMsg');
+    FirstNameError.textContent = 'ce champ ne peut pas être vide';
+  }
+  else if(myRegex.test(firstName.value == false)){
+    FirstNameError.textContent = 'ce champ ne peut pas contenir de chiffres';
+  } 
+}
+
 
