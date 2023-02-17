@@ -111,39 +111,17 @@ const lastName = document.querySelector('#lastName');
 const address = document.querySelector('#address');
 const city = document.querySelector('#city');
 const email = document.querySelector('#email');
-let formVerified = true;
-//Gestion de l'evenement du formulaire
-form.addEventListener('submit', (e) =>{
-  e.preventDefault();
-  
-  verifyForm();
-  if(formVerified === true){
-    formVerified.innerText = 'du code qui s execute';
-    let products = [];
-    //definir les proprietes de contacts
-    contact.firstName = firstName.value.trim();
-    
-    validateOrder(contact, products);
-  }
 
-
-});
-
- //Fonction 
-function verifyForm(){
-  
-  //Recuperation des valeurs des inputs
+//Gestion de l'evenement du firstName
+form.firstName.addEventListener('change', function() {
+  verifyFirst(); 
+})
+//verification de la validité du prenom
+function verifyFirst(){
   const firstNameValue = firstName.value.trim();
-  const lastNameValue = lastName.value.trim();
-  const addressValue = address.value.trim();
-  const cityValue = city.value.trim();
-  const emailValue = email.value.trim();
-
-  //verification de la validité du prenom
   if(firstNameValue === ""){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = 'Ce champ ne peut pas être vide';
-  
   }else if(!firstNameValue.match(/^[a-zA-Z-\s]+$/)){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = 'ce champ ne doit pas contenir des chiffres';
@@ -151,8 +129,16 @@ function verifyForm(){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = '';
   }
+}
 
-  //verification de la validité du nom
+//Gestion de l'evenement du lastName
+form.lastName.addEventListener('change',function(){
+  verifyLast();
+})
+
+//verification de la validité du nom
+function verifyLast(){
+  const lastNameValue = lastName.value.trim();
   if(lastNameValue === ""){
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = 'Ce champ ne peut pas être vide';
@@ -163,18 +149,31 @@ function verifyForm(){
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = '';
   }
+}
 
-  
-    //verification de la validité de l'adresse
-  if(addressValue === ""){
-    const addressMsgError = document.querySelector('#addressErrorMsg');
-    addressMsgError.innerText = 'Ce champ ne peut pas être vide';
-  }else{
-    const addressMsgError = document.querySelector('#addressErrorMsg');
-    addressMsgError.innerText = '';
-  }
+//Gestion de l'evenement de l'adresse
+form.address.addEventListener('change',function(){
+  verifyAddress();
+})
+//verification de la validité de address
+function verifyAddress(){
+  const addressValue = address.value.trim();
+    if(addressValue === ""){
+      const addressMsgError = document.querySelector('#addressErrorMsg');
+      addressMsgError.innerText = 'Ce champ ne peut pas être vide';
+    }else{
+      const addressMsgError = document.querySelector('#addressErrorMsg');
+      addressMsgError.innerText = '';
+    }
+}
 
-  //verification de la validité de la ville
+//Gestion de l'evenement de city
+form.city.addEventListener('change',function(){
+  verifyCity();
+})
+//verification de la validité de la ville
+function verifyCity(){
+  const cityValue = city.value.trim();
   if(cityValue === ""){
     const cityMsgError = document.querySelector('#cityErrorMsg');
     cityMsgError.innerText = 'Ce champ ne peut pas être vide';
@@ -182,34 +181,26 @@ function verifyForm(){
     const cityMsgError = document.querySelector('#cityErrorMsg');
     cityMsgError.innerText = '';
   }
-  //verification de la validité de la ville
+}
+
+//Gestion de l'evenement de email
+form.email.addEventListener('change',function(){
+  verifyEmail();
+})
+
+//verification de la validité de la ville
+function verifyEmail() {
+  const emailValue = email.value.trim();
   if(emailValue === ""){
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = 'Ce champ ne peut pas être vide';
-    formVerified = false;
   }else if(!emailValue.match(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/)){
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = 'ce champ doit contenir @';
-    formVerified = false;
   }else{
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = '';
-    formVerified = true;
   }
- }
-
- 
-function validateOrder(contact, products){
-
-  fetch("http://localhost:3000/api/orders",
-  {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify({contact: contact, products: products})
-  })
-  .then(function(res){ console.log(res) })
-  .catch(function(error){ console.log(error) })
 }
+
+
