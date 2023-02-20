@@ -203,4 +203,61 @@ function verifyEmail() {
   }
 }
 
+//Déclarer une constante 
+const btnOrder = document.getElementById('order');
+//Gestion de l'envoie de la commande
 
+btnOrder.addEventListener('click', (e) =>{
+  e.preventDefault();
+  verifyForm();
+  //Recuperation des données du formulaire de l'objet contact
+  let contact = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    address: address.value,
+    city: city.value,
+    email: email.value
+  } 
+
+  //Déclarer un tableau vide 
+  let products = [];
+  //Parcourir une liste de produits
+  for(product of objetinlocalstorage){
+    products.push(product);
+  }
+
+  validateOrder(contact, products);
+})
+
+
+function verifyForm(){
+  verifyFirst();
+  verifyLast();
+  verifyAddress();
+  verifyCity();
+  verifyEmail();
+}
+
+function validateOrder(contact, products){
+
+  fetch("http://localhost:3000/api/products/order",
+  { method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      },
+      
+      body: JSON.stringify({contact: contact, products: products})
+  })
+    .then((res) => res.json())
+
+  // Récupération de l'identifiant de commande dans la réponse
+    .then(function (data) {
+    const orderId = data.orderId
+    window.location.href = "./confirmation.html?orderId" +orderId;
+    localStorage.clear();
+  })
+  .catch((error) => {
+    alert('votre commande est invalide', error)
+  });
+}
