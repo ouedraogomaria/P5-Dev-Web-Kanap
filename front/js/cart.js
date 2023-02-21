@@ -203,6 +203,14 @@ function verifyEmail() {
   }
 }
 
+function verifyForm(){
+  verifyFirst();
+  verifyLast();
+  verifyAddress();
+  verifyCity();
+  verifyEmail();
+}
+
 //Déclarer une constante 
 const btnOrder = document.getElementById('order');
 //Gestion de l'envoie de la commande
@@ -228,15 +236,6 @@ btnOrder.addEventListener('click', (e) =>{
 
   validateOrder(contact, products);
 })
-
-
-function verifyForm(){
-  verifyFirst();
-  verifyLast();
-  verifyAddress();
-  verifyCity();
-  verifyEmail();
-}
 
 function validateOrder(contact, products){
 
