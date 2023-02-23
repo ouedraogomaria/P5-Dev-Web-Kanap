@@ -246,13 +246,13 @@ function validateOrder(contact, products){
       'Content-Type': 'application/json'
       },
       
-      body: JSON.stringify({contact: contact, products: products})
+      body: JSON.stringify({contact,products})
   })
     .then((res) => res.json())
 
   // Récupération de l'identifiant de commande dans la réponse
-    .then(function (data) {
-    const orderId = data.orderId
+    .then((data) =>{
+    const orderId = data.orderId;
     window.location.href = "./confirmation.html?orderId" +orderId;
     localStorage.clear();
   })

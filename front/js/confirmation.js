@@ -1,5 +1,11 @@
-const orderId = JSON.parse(localStorage.getItem('orderId'));
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const orderId = urlParams.get("orderId");
+//Appelle la fonction
+displayResponseId();
 //Afficher l'identifiant de la commande
-
-const displayOrderId = document.getElementById('orderId');
-displayOrderId.textContent = orderId;
+function displayResponseId(){
+    const displayOrderId = document.getElementById('orderId');
+    displayOrderId.textContent = orderId;
+    
+}
