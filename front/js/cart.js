@@ -8,6 +8,7 @@ displayTotalPrice();
 let btnDeleteds = [];
 let quantityBtns = []; 
 
+//Fonction pour récuperer le prix des produits 
 async function getPrice(id){
  
   let result = await fetch('http://localhost:3000/api/products/'+id);
@@ -18,7 +19,7 @@ async function getPrice(id){
 
 
 }
-//Utiliser la function pour afficher les produits du
+//Fonction pour afficher les produits 
 async function displayItems(){
   for (let data of objetinlocalstorage) { 
     let price = await getPrice(data.id);
@@ -202,7 +203,7 @@ function verifyEmail() {
     emailMsgError.innerText = '';
   }
 }
-
+//Fonction pour verifier le formulaire avant validation de la commande
 function verifyForm(){
   verifyFirst();
   verifyLast();
@@ -231,7 +232,7 @@ btnOrder.addEventListener('click', (e) =>{
   let products = [];
   //Parcourir une liste de produits
   for(product of objetinlocalstorage){
-    products.push(product);
+    products.push(product.id);
   }
 
   validateOrder(contact, products);
@@ -239,17 +240,16 @@ btnOrder.addEventListener('click', (e) =>{
 
 function validateOrder(contact, products){
 
-  fetch("http://localhost:3000/api/products/order",
-  { method: "POST",
+  fetch("http://localhost:3000/api/products/order",{ 
+    method: "POST",
     headers: {
-      
       'Content-Type': 'application/json'
-      },
+    },
       
-      body: JSON.stringify({contact: contact,products: products})
+    body: JSON.stringify({contact: contact,products: products})
   })
-    .then((res) => res.json())
-    .then((data) =>{
+  .then((res) => res.json())
+  .then((data) =>{
     const orderId = data.orderId;
     window.location.href = "./confirmation.html?orderId=" +orderId;
     localStorage.clear();
