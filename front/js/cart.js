@@ -218,7 +218,7 @@ const btnOrder = document.getElementById('order');
 btnOrder.addEventListener('click', (e) =>{
   e.preventDefault();
   verifyForm();
-  //Recuperation des données du formulaire de l'objet contact
+  //Recuperation des données du formulaire de l'objet contact et product
   let contact = {
     firstName: firstName.value,
     lastName: lastName.value,
@@ -226,7 +226,7 @@ btnOrder.addEventListener('click', (e) =>{
     city: city.value,
     email: email.value
   } 
-
+  let product = JSON.parse(localStorage.getItem('cart'));
   //Déclarer un tableau vide 
   let products = [];
   //Parcourir une liste de produits
@@ -242,18 +242,16 @@ function validateOrder(contact, products){
   fetch("http://localhost:3000/api/products/order",
   { method: "POST",
     headers: {
-      'Accept': 'application/json',
+      
       'Content-Type': 'application/json'
       },
       
-      body: JSON.stringify({contact,products})
+      body: JSON.stringify({contact: contact,products: products})
   })
     .then((res) => res.json())
-
-  // Récupération de l'identifiant de commande dans la réponse
     .then((data) =>{
     const orderId = data.orderId;
-    window.location.href = "./confirmation.html?orderId" +orderId;
+    window.location.href = "./confirmation.html?orderId=" +orderId;
     localStorage.clear();
   })
   .catch((error) => {
