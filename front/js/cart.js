@@ -14,11 +14,9 @@ async function getPrice(id){
   let result = await fetch('http://localhost:3000/api/products/'+id);
   let res = await result.json();
   let data = await res.price;
-  
   return data;
-
-
 }
+
 //Fonction pour afficher les produits 
 async function displayItems(){
   for (let data of objetinlocalstorage) { 
@@ -113,6 +111,9 @@ const address = document.querySelector('#address');
 const city = document.querySelector('#city');
 const email = document.querySelector('#email');
 
+const btnOrder = document.getElementById('order');
+let input = document.querySelector('input');
+let formIsValid = true;
 //Gestion de l'evenement du firstName
 form.firstName.addEventListener('change', function() {
   verifyFirst(); 
@@ -123,13 +124,16 @@ function verifyFirst(){
   if(firstNameValue === ""){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = 'Ce champ ne peut pas être vide';
+  
   }else if(!firstNameValue.match(/^[a-zA-Z-\s]+$/)){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = 'ce champ ne doit pas contenir des chiffres';
+    
   }else{
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = '';
   }
+  
 }
 
 //Gestion de l'evenement du lastName
@@ -143,9 +147,11 @@ function verifyLast(){
   if(lastNameValue === ""){
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = 'Ce champ ne peut pas être vide';
+  
   }else if(!lastNameValue.match(/^[a-zA-Z-\s]+$/)){
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = 'ce champ ne doit pas contenir des chiffres';
+
   }else{
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = '';
@@ -178,10 +184,12 @@ function verifyCity(){
   if(cityValue === ""){
     const cityMsgError = document.querySelector('#cityErrorMsg');
     cityMsgError.innerText = 'Ce champ ne peut pas être vide';
+    
   }else{
     const cityMsgError = document.querySelector('#cityErrorMsg');
     cityMsgError.innerText = '';
   }
+  
 }
 
 //Gestion de l'evenement de email
@@ -195,30 +203,25 @@ function verifyEmail() {
   if(emailValue === ""){
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = 'Ce champ ne peut pas être vide';
+  
   }else if(!emailValue.match(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/)){
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = 'ce champ doit contenir @';
+    
   }else{
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = '';
   }
 }
-//Fonction pour verifier le formulaire avant validation de la commande
-function verifyForm(){
-  verifyFirst();
-  verifyLast();
-  verifyAddress();
-  verifyCity();
-  verifyEmail();
-}
 
-//Déclarer une constante 
-const btnOrder = document.getElementById('order');
 //Gestion de l'envoie de la commande
-
 btnOrder.addEventListener('click', (e) =>{
-  e.preventDefault();
+ e.preventDefault();
+
+  formIsValid = true;
+  //Appelle la fonction de validité du formulaire
   verifyForm();
+
   //Recuperation des données du formulaire de l'objet contact et product
   let contact = {
     firstName: firstName.value,
@@ -227,22 +230,41 @@ btnOrder.addEventListener('click', (e) =>{
     city: city.value,
     email: email.value
   } 
+
   let product = JSON.parse(localStorage.getItem('cart'));
   //Déclarer un tableau vide 
   let products = [];
-  //Parcourir une liste de produits
+  //Parcourir la liste de produits à envoyée
   for(product of objetinlocalstorage){
     products.push(product.id);
   }
-
+//Appelle la fontion
   validateOrder(contact, products);
 })
 
-function validateOrder(contact, products){
+//Fonction pour verifier le formulaire avant validation de la commande
+function verifyForm() {
+  const inputs = form.querySelectorAll('input');
+  inputs.forEach((input) =>{
+    if(input.value === "" || input.value == undefined){
+      
+      formIsValid = false;
+   }     
+ })
+ if(!formIsValid){
+      alert ('Veuillez renseigner tous les champs');
+      return;
+    }
+}
 
-  fetch("http://localhost:3000/api/products/order",{ 
+
+//Fonction de validation de la commande
+function validateOrder(contact, products){
+  if(formIsValid){
+    fetch("http://localhost:3000/api/products/order",{ 
     method: "POST",
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
       
@@ -257,4 +279,6 @@ function validateOrder(contact, products){
   .catch((error) => {
     alert('votre commande est invalide', error)
   });
+  }
+  
 }
