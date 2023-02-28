@@ -10,5 +10,4 @@ function displayResponseId(orderId){
   const p = document.createElement('span');
   p.textContent = orderId;
   document.querySelector('#orderId').appendChild(p);
-  
 }

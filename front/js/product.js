@@ -4,7 +4,7 @@ const urlParams = new URLSearchParams(queryString_url_id);
 const id = urlParams.get("id");
 
 
-// Recuper les donnees des produits depuis l API
+// Recuperation des données du produit depuis l API
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((response) => response.json())
   .then((data) =>{
@@ -16,7 +16,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
     alert('alert probleme', error)
   });
 
-// Inserer l'image d'un produit et ses details  
+// Fonction pour inserer l'image d'un produit et ses details  
 function afficherProduit (kanap){
   const title = document.createElement('h1');
   title.textContent= kanap.name;
@@ -45,7 +45,7 @@ function afficherProduit (kanap){
 }    
     
 
-//Gestion  des produits dans le panier
+//Gestion  de l'evenement d'ajout des produits dans le panier
 const button = document.querySelector('#addToCart');
 button.addEventListener('click', (e) => {
 e.preventDefault();
@@ -66,12 +66,11 @@ e.preventDefault();
     return;
   }
   
-  //Ajout de la function AddTocart
-
+  //Appelle  de la function AddTocart
   AddTocart(color, quantity, tilte, src, alt);
 });
 
-//Enregistrer le produit dans le locaStorage
+//Fonction pour mettre le produit dans le locaStorage
 function AddTocart(color, quantity, tilte, src, alt){
   const objetKanap = {id, color, quantity,  tilte, src, alt};
   localStorage.setItem('objetkanap', JSON.stringify(objetKanap));
@@ -79,9 +78,6 @@ function AddTocart(color, quantity, tilte, src, alt){
   // Récupérer le panier dans le localstorage
   const cart = localStorage.getItem('cart') != undefined ? JSON.parse(localStorage.getItem('cart')): [];
 
-  //ajout un produit
-
-  
   //si le produit existe dans le panier mettre à jour la quantité
   let foundProduct = cart.find(p =>p.id === objetKanap.id && p.color == objetKanap.color );
   if(foundProduct != undefined){

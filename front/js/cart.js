@@ -4,11 +4,11 @@ const objetinlocalstorage = JSON.parse(localStorage.getItem('cart'));
 displayItems();
 displayTotalArticle();
 displayTotalPrice();
-//creation de variables pour mettre les valeurs et les quantités des produits dans le panier
+//creation de variables pour mettre les valeurs et les quantités des produits
 let btnDeleteds = [];
 let quantityBtns = []; 
 
-//Fonction pour récuperer le prix des produits 
+//Fonction pour récuperer le prix d'un produit
 async function getPrice(id){
  
   let result = await fetch('http://localhost:3000/api/products/'+id);
@@ -58,23 +58,23 @@ async function displayItems(){
  //Gestion de l'evenement de mise à jour de la quantité 
   quantityBtns = document.getElementsByClassName('itemQuantity');
   for(let i= 0; i< quantityBtns.length ;i++ ){ 
-   quantityBtns[i].addEventListener('change', () => { 
+    quantityBtns[i].addEventListener('change', () => { 
   //appelle à la fonction pour mettre à jour la quantité
     addQuantity(i);
-  }) ;
+    }) ;
   }  
 
 }
 
-//Supprimer un produit dans la page panier
+//Fonction Supprimer un produit dans la page panier
 function deleteItem (itemIndex){
   objetinlocalstorage.splice(itemIndex,1)
-   localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
+  localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
  //Mise à jour de la page
    window.location.reload()
- }
+}
 
- //Mise à jour de la quantité des articles dans le panier
+ //Fonction de mise à jour de la quantité des articles dans le panier
 function addQuantity (itemIndex){
   const quantity = quantityBtns[itemIndex].value;
   objetinlocalstorage[itemIndex].quantity = quantity;
@@ -82,7 +82,7 @@ function addQuantity (itemIndex){
     window.location.href = "cart.html"
 }
 
-//Calcul le total des articles du panier
+//Fonction de Calcul du total des articles dans le panier
  function displayTotalArticle(){
   let totalArticles = 0
   for(let item of objetinlocalstorage){ 
@@ -91,7 +91,7 @@ function addQuantity (itemIndex){
   document.querySelector('#totalQuantity').insertAdjacentHTML('beforeend', totalArticles)
 }
 
-//Calculer le total du prix des articles du panier
+//Fonction de Calcul du total du prix des articles dans le panier
 async function displayTotalPrice(){
   let totalPrice = 0
   for(let item of objetinlocalstorage){
@@ -116,10 +116,10 @@ let input = document.querySelector('input');
 let formIsValid = true;
 //Gestion de l'evenement du firstName
 form.firstName.addEventListener('change', function() {
-  verifyFirst(); 
+  verifyFirstName(); 
 })
 //verification de la validité du prenom
-function verifyFirst(){
+function verifyFirstName(){
   const firstNameValue = firstName.value.trim();
   if(firstNameValue === ""){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
@@ -138,11 +138,11 @@ function verifyFirst(){
 
 //Gestion de l'evenement du lastName
 form.lastName.addEventListener('change',function(){
-  verifyLast();
+  verifyLastName();
 })
 
 //verification de la validité du nom
-function verifyLast(){
+function verifyLastName(){
   const lastNameValue = lastName.value.trim();
   if(lastNameValue === ""){
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
