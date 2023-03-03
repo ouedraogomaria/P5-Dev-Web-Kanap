@@ -1,12 +1,12 @@
 //Récupérer le produit dans le localStorage
-const objetinlocalstorage = JSON.parse(localStorage.getItem('cart'));
-//Appelle  les fonction d'affichage
-displayItems();
-displayTotalArticle();
-displayTotalPrice();
-//creation de variables pour mettre les valeurs et les quantités des produits
-let btnDeleteds = [];
-let quantityBtns = []; 
+const objetInlocalstorage = JSON.parse(localStorage.getItem('cart'));
+
+//Appelle  les fonction d'affichage si le panier contient au moins un produit
+if(objetInlocalstorage != null){
+  displayItems();
+  displayTotalArticle();
+  displayTotalPrice();
+}
 
 //Fonction pour récuperer le prix d'un produit
 async function getPrice(id){
@@ -19,7 +19,7 @@ async function getPrice(id){
 
 //Fonction pour afficher les produits 
 async function displayItems(){
-  for (let data of objetinlocalstorage) { 
+  for (let data of objetInlocalstorage) { 
     let price = await getPrice(data.id);
     const objet = `<article class="cart__item" data-id="${data.id}" data-color="${data.color}">
         <div class="cart__item__img">
@@ -68,8 +68,8 @@ async function displayItems(){
 
 //Fonction Supprimer un produit dans la page panier
 function deleteItem (itemIndex){
-  objetinlocalstorage.splice(itemIndex,1)
-  localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
+  objetInlocalstorage.splice(itemIndex,1)
+  localStorage.setItem('cart', JSON.stringify(objetInlocalstorage));
  //Mise à jour de la page
    window.location.reload()
 }
@@ -77,15 +77,15 @@ function deleteItem (itemIndex){
  //Fonction de mise à jour de la quantité des articles dans le panier
 function addQuantity (itemIndex){
   const quantity = quantityBtns[itemIndex].value;
-  objetinlocalstorage[itemIndex].quantity = quantity;
-    localStorage.setItem('cart', JSON.stringify(objetinlocalstorage));
+  objetInlocalstorage[itemIndex].quantity = quantity;
+    localStorage.setItem('cart', JSON.stringify(objetInlocalstorage));
     window.location.href = "cart.html"
 }
 
 //Fonction de Calcul du total des articles dans le panier
  function displayTotalArticle(){
   let totalArticles = 0
-  for(let item of objetinlocalstorage){ 
+  for(let item of objetInlocalstorage){ 
     totalArticles = totalArticles +parseInt(item.quantity);
   }
   document.querySelector('#totalQuantity').insertAdjacentHTML('beforeend', totalArticles)
@@ -94,7 +94,7 @@ function addQuantity (itemIndex){
 //Fonction de Calcul du total du prix des articles dans le panier
 async function displayTotalPrice(){
   let totalPrice = 0
-  for(let item of objetinlocalstorage){
+  for(let item of objetInlocalstorage){
     //recupreration du prix d'un produit
     let price = await getPrice(item.id); 
     totalPrice = totalPrice + parseFloat(price)*parseInt(item.quantity); 
@@ -235,7 +235,7 @@ btnOrder.addEventListener('click', (e) =>{
   //Déclarer un tableau vide 
   let products = [];
   //Parcourir la liste de produits à envoyée
-  for(product of objetinlocalstorage){
+  for(product of objetInlocalstorage){
     products.push(product.id);
   }
 //Appelle la fontion
@@ -247,7 +247,6 @@ function verifyForm() {
   const inputs = form.querySelectorAll('input');
   inputs.forEach((input) =>{
     if(input.value === "" || input.value == undefined){
-      
       formIsValid = false;
    }     
  })
@@ -256,7 +255,6 @@ function verifyForm() {
       return;
     }
 }
-
 
 //Fonction de validation de la commande
 function validateOrder(contact, products){
