@@ -114,6 +114,7 @@ const email = document.querySelector('#email');
 const btnOrder = document.getElementById('order');
 let input = document.querySelector('input');
 let formIsValid = true;
+
 //Gestion de l'evenement du firstName
 form.firstName.addEventListener('change', function() {
   verifyFirstName(); 
@@ -134,7 +135,6 @@ function verifyFirstName(){
   }else{
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = '';
-    //formIsValid = true;
   }
   
 }
@@ -160,7 +160,6 @@ function verifyLastName(){
   }else{
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = '';
-   // formIsValid = true;
   }
 }
 
@@ -179,8 +178,6 @@ function verifyAddress(){
     }else{
       const addressMsgError = document.querySelector('#addressErrorMsg');
       addressMsgError.innerText = '';
-     // formIsValid = true;
-
     }
 }
 
@@ -199,8 +196,6 @@ function verifyCity(){
   }else{
     const cityMsgError = document.querySelector('#cityErrorMsg');
     cityMsgError.innerText = '';
-   // formIsValid = true;
-    
   }
   
 }
@@ -226,7 +221,6 @@ function verifyEmail() {
   }else{
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = '';
-    //formIsValid = true;
   }
 }
 
