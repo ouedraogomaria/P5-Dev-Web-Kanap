@@ -124,14 +124,17 @@ function verifyFirstName(){
   if(firstNameValue === ""){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = 'Ce champ ne peut pas être vide';
-  
+    formIsValid = false;
+    return;
   }else if(!firstNameValue.match(/^[a-zA-Z-\s]+$/)){
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = 'ce champ ne doit pas contenir des chiffres';
-    
+    formIsValid = false;
+    return;
   }else{
     const firstMsgError = document.querySelector('#firstNameErrorMsg');
     firstMsgError.innerText = '';
+    //formIsValid = true;
   }
   
 }
@@ -147,14 +150,17 @@ function verifyLastName(){
   if(lastNameValue === ""){
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = 'Ce champ ne peut pas être vide';
-  
+    formIsValid = false;
+    return;
   }else if(!lastNameValue.match(/^[a-zA-Z-\s]+$/)){
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = 'ce champ ne doit pas contenir des chiffres';
-
+    formIsValid = false;
+    return;
   }else{
     const lastMsgError = document.querySelector('#lastNameErrorMsg');
     lastMsgError.innerText = '';
+   // formIsValid = true;
   }
 }
 
@@ -168,9 +174,13 @@ function verifyAddress(){
     if(addressValue === ""){
       const addressMsgError = document.querySelector('#addressErrorMsg');
       addressMsgError.innerText = 'Ce champ ne peut pas être vide';
+      formIsValid = false;
+    return;
     }else{
       const addressMsgError = document.querySelector('#addressErrorMsg');
       addressMsgError.innerText = '';
+     // formIsValid = true;
+
     }
 }
 
@@ -184,10 +194,13 @@ function verifyCity(){
   if(cityValue === ""){
     const cityMsgError = document.querySelector('#cityErrorMsg');
     cityMsgError.innerText = 'Ce champ ne peut pas être vide';
-    
+    formIsValid = false;
+    return;
   }else{
     const cityMsgError = document.querySelector('#cityErrorMsg');
     cityMsgError.innerText = '';
+   // formIsValid = true;
+    
   }
   
 }
@@ -203,14 +216,17 @@ function verifyEmail() {
   if(emailValue === ""){
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = 'Ce champ ne peut pas être vide';
-  
+    formIsValid = false;
+    return;
   }else if(!emailValue.match(/^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/)){
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = 'ce champ doit contenir @';
-    
+    formIsValid = false;
+    return;
   }else{
     const emailMsgError = document.querySelector('#emailErrorMsg');
     emailMsgError.innerText = '';
+    //formIsValid = true;
   }
 }
 
@@ -220,6 +236,11 @@ btnOrder.addEventListener('click', (e) =>{
 
   formIsValid = true;
   //Appelle la fonction de validité du formulaire
+  verifyFirstName();
+  verifyLastName();
+  verifyAddress();
+  verifyCity();
+  verifyEmail();
   verifyForm();
 
   //Recuperation des données du formulaire de l'objet contact et product
@@ -246,12 +267,12 @@ btnOrder.addEventListener('click', (e) =>{
 function verifyForm() {
   const inputs = form.querySelectorAll('input');
   inputs.forEach((input) =>{
-    if(input.value === "" || input.value == undefined){
+    if(input.value === "" || input.value === undefined){
       formIsValid = false;
    }     
  })
  if(!formIsValid){
-      alert ('Veuillez renseigner tous les champs');
+      alert ('Veuillez bien renseigner tous les champs');
       return;
     }
 }
