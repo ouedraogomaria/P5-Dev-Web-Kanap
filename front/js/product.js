@@ -79,7 +79,7 @@ function AddTocart(color, quantity, tilte, src, alt){
   const cart = localStorage.getItem('cart') != undefined ? JSON.parse(localStorage.getItem('cart')): [];
 
   //si le produit existe dans le panier mettre à jour la quantité
-  let foundProduct = cart.find(p =>p.id === objetKanap.id && p.color == objetKanap.color );
+  let foundProduct = cart.find(p =>p.id === objetKanap.id && p.color === objetKanap.color );
   if(foundProduct != undefined){
     foundProduct.quantity = parseInt(foundProduct.quantity) +parseInt(quantity);
     alert('mise à jour de la quantité');

@@ -223,7 +223,19 @@ function verifyEmail() {
     emailMsgError.innerText = '';
   }
 }
-
+//Fonction pour verifier le formulaire avant validation de la commande
+function verifyForm() {
+  const inputs = form.querySelectorAll('input');
+  inputs.forEach((input) =>{
+    if(input.value === "" || input.value === undefined){
+      formIsValid = false;
+   }     
+ })
+ if(!formIsValid){
+      alert ('Veuillez bien renseigner tous les champs');
+      return;
+    }
+}
 //Gestion de l'envoie de la commande
 btnOrder.addEventListener('click', (e) =>{
  e.preventDefault();
@@ -257,19 +269,7 @@ btnOrder.addEventListener('click', (e) =>{
   validateOrder(contact, products);
 })
 
-//Fonction pour verifier le formulaire avant validation de la commande
-function verifyForm() {
-  const inputs = form.querySelectorAll('input');
-  inputs.forEach((input) =>{
-    if(input.value === "" || input.value === undefined){
-      formIsValid = false;
-   }     
- })
- if(!formIsValid){
-      alert ('Veuillez bien renseigner tous les champs');
-      return;
-    }
-}
+
 
 //Fonction de validation de la commande
 function validateOrder(contact, products){
