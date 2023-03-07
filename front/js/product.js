@@ -61,7 +61,7 @@ e.preventDefault();
     return;
   }
   
-  if (quantity < 1 || quantity > 100) {
+  if (quantity < 1 || quantity > 99) {
     alert('choisir une quantité valide');
     return;
   }

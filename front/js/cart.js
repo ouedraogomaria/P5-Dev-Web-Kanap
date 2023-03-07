@@ -76,10 +76,18 @@ function deleteItem (itemIndex){
 
  //Fonction de mise à jour de la quantité des articles dans le panier
 function addQuantity (itemIndex){
+
   const quantity = quantityBtns[itemIndex].value;
+  
+  if (quantity < 1 || quantity > 99) {
+    alert('choisir une quantité valide');
+    return;
+  }
   objetInlocalstorage[itemIndex].quantity = quantity;
     localStorage.setItem('cart', JSON.stringify(objetInlocalstorage));
-    window.location.href = "cart.html"
+
+    
+    window.location.href = "cart.html";
 }
 
 //Fonction de Calcul du total des articles dans le panier
